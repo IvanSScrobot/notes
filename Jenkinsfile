@@ -1,13 +1,14 @@
 pipeline {
     agent any
-    
+
     environment {
         // Using returnStdout
         CC = """${sh(
                 returnStdout: true,
                 script: 'echo "clang"'
             )}"""
-
+    }
+    
     stages {
         stage('Build') {
             steps {
