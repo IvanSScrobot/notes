@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    parameters {
+        string(name: 'STATEMENT', defaultValue: 'hello; ls /', description: 'What should I say?')
+    }
     environment {
         // Using returnStdout
         CC = """${sh(
@@ -25,7 +28,16 @@ pipeline {
                         set +x
                         echo $GH_KEY
                     '''
+                    //согласно доке, должна быть разница в выводе секретов между """ и '''
+                    // """ должны быть менее секьюрны
+                    // но разницы я не вижу.
+                    //в обоих вариантах, cat $GH_KEY выведет в лог содержание private key
                 }
+                //вот тут видна разница
+                sh("echo double-quotes")
+                sh("echo ${STATEMENT}")
+                sh('echo single-quotes')
+                sh('echo ${STATEMENT}')
             }
         }
         stage('Test') {
