@@ -7,7 +7,7 @@ pipeline {
                 returnStdout: true,
                 script: 'echo "clang"'
             )}"""
-        withCredentials([sshUserPrivateKey(credentialsId: 'GitHub', keyFileVariable: 'GH_KEY', passphraseVariable: '', usernameVariable: '')]) {
+        withCredentials([sshUserPrivateKey(credentialsId: 'GitHub', keyFileVariable: 'GH_KEY', passphraseVariable: 'PASS', usernameVariable: 'USR_NAME')]) {
     // some block
         }
     }
@@ -20,12 +20,12 @@ pipeline {
                 echo 'First output'
                 sh """
                     set +x
-                    echo $GitHub
+                    echo $GH_KEY
                 """
                 echo 'Second output'
                 sh '''
                     set +x
-                    echo $GitHub
+                    echo $GH_KEY
                 '''
             }
         }
